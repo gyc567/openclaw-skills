@@ -121,6 +121,11 @@ export interface SkillCardLabels {
   installCount: (count: string) => string;
   copyCommand: string;
   copied: string;
+  apiCommands: string;
+  capabilities: string;
+  supported: string;
+  unsupported: string;
+  usageExample: string;
 }
 
 export interface I18nLabels {

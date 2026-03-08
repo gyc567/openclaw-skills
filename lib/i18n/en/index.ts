@@ -21,7 +21,7 @@ export const en: I18nLabels = {
   hero: {
     badge: 'Official Skills Marketplace',
     headline: ['Supercharge Your AI', 'Agent Capabilities'],
-    subtitle: 'Discover 700+ community-built OpenClawSkills to extend your AI assistant with external services, automated workflows, and specialized tasks.',
+    subtitle: 'Discover 700+ community-built ClawSkillStore to extend your AI assistant with external services, automated workflows, and specialized tasks.',
     cta: {
       browse: 'Browse Skills',
       installGuide: 'Install Guide',
@@ -74,7 +74,7 @@ export const en: I18nLabels = {
           {
             title: 'Install Skill',
             code: 'npx clawdhub@latest install <skill-slug>',
-            description: 'Install the specified skill to your OpenClawSkills',
+            description: 'Install the specified skill to your ClawSkillStore',
           },
         ],
       },
@@ -113,19 +113,19 @@ export const en: I18nLabels = {
   faq: {
     badge: 'FAQ',
     title: 'Questions? We have answers',
-    subtitle: 'Frequently asked questions about OpenClawSkills Marketplace',
+    subtitle: 'Frequently asked questions about ClawSkillStore Marketplace',
     items: [
       {
-        question: 'What are OpenClawSkills?',
-        answer: 'OpenClawSkills are modular capability extensions that enable your AI assistant (like Claude Code, OpenCode, Codex, etc.) to perform specialized tasks. They follow the Agent Skill open standard developed by Anthropic, allowing AI assistants to interact with external services, automate workflows, and execute various professional tasks from code review to documentation generation and security analysis.',
+        question: 'What are ClawSkillStore?',
+        answer: 'ClawSkillStore are modular capability extensions that enable your AI assistant (like Claude Code, OpenCode, Codex, etc.) to perform specialized tasks. They follow the Agent Skill open standard developed by Anthropic, allowing AI assistants to interact with external services, automate workflows, and execute various professional tasks from code review to documentation generation and security analysis.',
       },
       {
-        question: 'How do I install OpenClawSkills?',
+        question: 'How do I install ClawSkillStore?',
         answer: 'Installing skills is simple. The easiest method is using ClawdHub CLI: run `npx clawdhub@latest install <skill-slug>` to install a specific skill. Alternatively, you can manually copy the skill folder to `~/.openclaw/skills/` (global) or `<project>/skills/` (project-level) directory.',
       },
       {
         question: 'Which AI agent frameworks are supported?',
-        answer: 'OpenClawSkills supports all AI coding assistants that follow the Agent Skill standard, including Claude Code, OpenCode, Codex, Cursor, Aider, Windsurf, Zed, RooCode, Gemini CLI, GitHub Copilot, and more. This universal compatibility allows you to seamlessly switch between different AI tools.',
+        answer: 'ClawSkillStore supports all AI coding assistants that follow the Agent Skill standard, including Claude Code, OpenCode, Codex, Cursor, Aider, Windsurf, Zed, RooCode, Gemini CLI, GitHub Copilot, and more. This universal compatibility allows you to seamlessly switch between different AI tools.',
       },
       {
         question: 'What is the difference between skills and simple prompts?',
@@ -133,11 +133,11 @@ export const en: I18nLabels = {
       },
       {
         question: 'Can I create my own skills?',
-        answer: 'Absolutely! You can create custom skills following the Agent Skill standard. A skill typically includes a SKILL.md file (describing capabilities and usage scenarios), necessary code files, and configuration. Once created, you can submit it to the Awesome OpenClawSkills list to share with the community.',
+        answer: 'Absolutely! You can create custom skills following the Agent Skill standard. A skill typically includes a SKILL.md file (describing capabilities and usage scenarios), necessary code files, and configuration. Once created, you can submit it to the Awesome ClawSkillStore list to share with the community.',
       },
       {
         question: 'What is the skill loading priority?',
-        answer: 'OpenClawSkills loads skills in the following priority (from highest to lowest): 1) Workspace level - current project\'s skills/ directory; 2) Global level - ~/.openclaw/skills/ directory; 3) Bundled level - built-in OpenClawSkills. This allows you to override global skill configurations at the project level.',
+        answer: 'ClawSkillStore loads skills in the following priority (from highest to lowest): 1) Workspace level - current project\'s skills/ directory; 2) Global level - ~/.openclaw/skills/ directory; 3) Bundled level - built-in ClawSkillStore. This allows you to override global skill configurations at the project level.',
       },
       {
         question: 'How do I update installed skills?',
@@ -145,7 +145,7 @@ export const en: I18nLabels = {
       },
       {
         question: 'How is skill security ensured?',
-        answer: 'Community skills go through a review process, but we recommend checking the skill\'s source code and permission requirements before installation. OpenClawSkills will request confirmation before performing sensitive operations. For enterprise environments, we recommend distributing security-reviewed skill versions internally.',
+        answer: 'Community skills go through a review process, but we recommend checking the skill\'s source code and permission requirements before installation. ClawSkillStore will request confirmation before performing sensitive operations. For enterprise environments, we recommend distributing security-reviewed skill versions internally.',
       },
     ],
     contact: {
@@ -157,14 +157,14 @@ export const en: I18nLabels = {
   },
 
   footer: {
-    tagline: 'The premier marketplace for OpenClawSkills agent skills. Discover, install, and manage community-built skills to enhance your AI assistant.',
+    tagline: 'The premier marketplace for ClawSkillStore agent skills. Discover, install, and manage community-built skills to enhance your AI assistant.',
     links: {
       product: 'Product',
       resources: 'Resources',
       community: 'Community',
       legal: 'Legal',
     },
-    copyright: `© ${new Date().getFullYear()} OpenClawSkills Marketplace. All rights reserved.`,
+    copyright: `© ${new Date().getFullYear()} ClawSkillStore Marketplace. All rights reserved.`,
     poweredBy: 'Powered by the community, for the community',
   },
 
@@ -176,6 +176,11 @@ export const en: I18nLabels = {
     installCount: (count: string) => `${count} installs`,
     copyCommand: 'Copy Install Command',
     copied: 'Copied',
+    apiCommands: 'API Commands',
+    capabilities: 'Capabilities',
+    supported: 'Supported',
+    unsupported: 'Not Supported',
+    usageExample: 'Usage Example',
   },
 };
 

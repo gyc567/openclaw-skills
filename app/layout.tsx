@@ -13,11 +13,11 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "OpenClawSkills Marketplace - Discover 700+ AI Agent Skills",
-  description: "The premier marketplace for OpenClawSkills agent skills. Discover, install, and manage 700+ community-built skills to supercharge your AI assistant.",
-  keywords: ["OpenClawSkills", "AI", "agent", "skills", "marketplace", "Claude", "MCP", "automation"],
+  title: "ClawSkillStore Marketplace - Discover 700+ AI Agent Skills",
+  description: "The premier marketplace for ClawSkillStore agent skills. Discover, install, and manage 700+ community-built skills to supercharge your AI assistant.",
+  keywords: ["ClawSkillStore", "AI", "agent", "skills", "marketplace", "Claude", "MCP", "automation"],
   openGraph: {
-    title: "OpenClawSkills Marketplace",
+    title: "ClawSkillStore Marketplace",
     description: "Discover 700+ community-built AI agent skills",
     type: "website",
   },

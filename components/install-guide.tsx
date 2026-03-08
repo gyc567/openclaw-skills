@@ -39,7 +39,7 @@ export function InstallGuide() {
         <div className="text-center mb-10">
           <Badge
             variant="secondary"
-            className="mb-3 bg-secondary text-muted-foreground border-border font-mono text-xs"
+            className="mb-3 bg-secondary/80 text-muted-foreground border-accent-glow font-mono text-xs"
           >
             <Download className="w-3 h-3 mr-1.5" />
             {t.badge}
@@ -53,7 +53,7 @@ export function InstallGuide() {
         </div>
 
         <Tabs defaultValue="cli" className="w-full">
-          <TabsList className="w-full max-w-sm mx-auto mb-6 bg-secondary border border-border p-1">
+          <TabsList className="w-full max-w-sm mx-auto mb-6 bg-secondary border border-accent-glow p-1">
             {installMethods.map((method) => (
               <TabsTrigger
                 key={method.id}
@@ -70,7 +70,7 @@ export function InstallGuide() {
             <TabsContent key={method.id} value={method.id}>
               <div className="grid md:grid-cols-3 gap-4">
                 {method.steps.map((step, index) => (
-                  <Card key={step.title} className="bg-card border-border">
+                  <Card key={step.title} className="bg-card border-accent-glow">
                     <CardContent className="p-4">
                       <div className="flex items-center gap-2 mb-3">
                         <div className="w-6 h-6 rounded bg-secondary flex items-center justify-center text-xs font-mono">
@@ -84,13 +84,13 @@ export function InstallGuide() {
                         {step.description}
                       </p>
                       <div className="relative">
-                        <pre className="bg-background rounded p-2 text-xs font-mono text-muted-foreground overflow-x-auto border border-border">
+                        <pre className="bg-secondary rounded p-2 text-xs font-mono text-muted-foreground overflow-x-auto border border-accent-glow">
                           <code>{step.code}</code>
                         </pre>
                         <Button
                           size="icon"
                           variant="ghost"
-                          className="absolute top-1 right-1 h-7 w-7 text-muted-foreground hover:text-foreground"
+                          className="absolute top-1 right-1 h-7 w-7 text-muted-foreground hover:text-accent"
                           onClick={() => handleCopy(step.code, `${method.id}-${index}`)}
                         >
                           {copiedIndex === `${method.id}-${index}` ? (
@@ -108,7 +108,7 @@ export function InstallGuide() {
           ))}
         </Tabs>
 
-        <Card className="bg-card border-border mt-10">
+        <Card className="bg-card border-accent-glow mt-10">
           <CardContent className="p-5">
             <div className="flex items-center gap-2 mb-4">
               <Package className="w-4 h-4 text-accent" />
@@ -120,10 +120,10 @@ export function InstallGuide() {
               {t.priority.levels.map((info, index) => (
                 <div
                   key={info.label}
-                  className="p-3 rounded bg-secondary border border-border"
+                  className="p-3 rounded bg-secondary border border-accent-glow"
                 >
                   <div className="flex items-center gap-2 mb-1">
-                    <div className="w-5 h-5 rounded bg-background flex items-center justify-center text-xs font-mono border border-border">
+                    <div className="w-5 h-5 rounded bg-background flex items-center justify-center text-xs font-mono border border-accent-glow">
                       {index + 1}
                     </div>
                     <div className="font-medium text-foreground text-sm">

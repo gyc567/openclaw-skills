@@ -14,7 +14,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Skill, categories } from "@/lib/skills-data";
-import { Download, ExternalLink, Copy, Check, Tag, User, ArrowUpRight } from "lucide-react";
+import { Download, ExternalLink, Copy, Check, Tag, User, ArrowUpRight, Code, Zap, FileCode, CheckCircle, XCircle } from "lucide-react";
 import { en } from "@/lib/i18n";
 import { ErrorBoundary } from "./error/error-boundary";
 
@@ -46,7 +46,7 @@ export function SkillCard({ skill }: SkillCardProps) {
   }, []);
 
   const cardContent = (
-    <Card className="bg-card border-border hover:border-accent transition-colors cursor-pointer h-full">
+    <Card className="bg-card border-accent-glow hover:border-accent-glow card-tech transition-colors cursor-pointer h-full">
       <CardHeader className="pb-2">
         <div className="flex items-start justify-between gap-2">
           <div className="flex items-center gap-2">
@@ -79,7 +79,7 @@ export function SkillCard({ skill }: SkillCardProps) {
               <Badge
                 key={tag}
                 variant="secondary"
-                className="bg-secondary text-muted-foreground text-xs font-mono"
+                className="bg-secondary/50 text-muted-foreground text-xs font-mono"
               >
                 {t.tagPrefix}{tag}
               </Badge>
@@ -87,7 +87,7 @@ export function SkillCard({ skill }: SkillCardProps) {
             {skill.tags.length > 2 && (
               <Badge
                 variant="secondary"
-                className="bg-secondary text-muted-foreground text-xs font-mono"
+                className="bg-secondary/50 text-muted-foreground text-xs font-mono"
               >
                 {t.moreTags(skill.tags.length - 2)}
               </Badge>
@@ -116,7 +116,7 @@ export function SkillCard({ skill }: SkillCardProps) {
             {cardContent}
           </DialogTrigger>
 
-          <DialogContent className="bg-card border-border text-foreground max-w-md">
+          <DialogContent className="bg-card border-accent-glow text-foreground max-w-md max-h-[80vh] overflow-y-auto">
             <DialogHeader>
               <div className="flex items-center gap-3 mb-3">
                 <div
@@ -152,7 +152,7 @@ export function SkillCard({ skill }: SkillCardProps) {
                     <Badge
                       key={tag}
                       variant="secondary"
-                      className="bg-secondary text-muted-foreground text-xs font-mono"
+                      className="bg-secondary/50 text-muted-foreground text-xs font-mono"
                     >
                       {t.tagPrefix}{tag}
                     </Badge>
@@ -160,7 +160,88 @@ export function SkillCard({ skill }: SkillCardProps) {
                 </div>
               </div>
 
-              <div className="bg-secondary rounded-lg p-3 space-y-2 border border-border">
+              {/* API Commands Section */}
+              {skill.api && (
+                <div>
+                  <h4 className="text-xs font-medium text-muted-foreground mb-2 flex items-center gap-1 font-mono">
+                    <Code className="w-3 h-3" />
+                    {t.apiCommands}
+                  </h4>
+                  <div className="bg-secondary rounded-lg border border-accent-glow overflow-hidden">
+                    <div className="max-h-40 overflow-y-auto">
+                      {skill.api.commands.map((cmd, idx) => (
+                        <div key={idx} className="px-3 py-2 border-b border-accent-glow last:border-b-0">
+                          <code className="text-xs text-accent font-mono block">
+                            {cmd.name}{cmd.parameters || '()'}
+                          </code>
+                          <span className="text-xs text-muted-foreground">
+                            {cmd.description}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Capabilities Section */}
+              {skill.capabilities && (
+                <div>
+                  <h4 className="text-xs font-medium text-muted-foreground mb-2 flex items-center gap-1 font-mono">
+                    <Zap className="w-3 h-3" />
+                    {t.capabilities}
+                  </h4>
+                  <div className="space-y-2">
+                    {skill.capabilities.supported.length > 0 && (
+                      <div className="bg-secondary rounded-lg p-2 border border-accent-glow">
+                        <div className="flex flex-wrap gap-1.5">
+                          {skill.capabilities.supported.map((cap, idx) => (
+                            <Badge
+                              key={idx}
+                              variant="secondary"
+                              className="bg-green-500/10 text-green-400 text-xs font-mono"
+                            >
+                              <CheckCircle className="w-3 h-3 mr-1" />
+                              {cap}
+                            </Badge>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                    {skill.capabilities.unsupported.length > 0 && (
+                      <div className="bg-secondary rounded-lg p-2 border border-accent-glow opacity-70">
+                        <div className="flex flex-wrap gap-1.5">
+                          {skill.capabilities.unsupported.map((cap, idx) => (
+                            <Badge
+                              key={idx}
+                              variant="secondary"
+                              className="bg-red-500/10 text-red-400 text-xs font-mono"
+                            >
+                              <XCircle className="w-3 h-3 mr-1" />
+                              {cap}
+                            </Badge>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+
+              {/* Usage Section */}
+              {skill.usage && (
+                <div>
+                  <h4 className="text-xs font-medium text-muted-foreground mb-2 flex items-center gap-1 font-mono">
+                    <FileCode className="w-3 h-3" />
+                    {t.usageExample}
+                  </h4>
+                  <pre className="bg-background rounded-lg p-3 border border-accent-glow overflow-x-auto text-xs font-mono text-muted-foreground whitespace-pre-wrap">
+                    {skill.usage}
+                  </pre>
+                </div>
+              )}
+
+              <div className="bg-secondary rounded-lg p-3 space-y-2 border border-accent-glow">
                 <div className="flex items-center justify-between">
                   <span className="text-xs text-muted-foreground font-mono">
                     {t.installCommand}
@@ -173,13 +254,13 @@ export function SkillCard({ skill }: SkillCardProps) {
                   )}
                 </div>
                 <div className="flex gap-2">
-                  <code className="flex-1 bg-background rounded px-2 py-1.5 text-xs text-muted-foreground font-mono border border-border">
+                  <code className="flex-1 bg-background rounded px-2 py-1.5 text-xs text-muted-foreground font-mono border border-accent-glow">
                     npx clawdhub@latest install {skill.id}
                   </code>
                   <Button
                     size="icon"
                     variant="outline"
-                    className="border-border hover:bg-secondary transition-colors"
+                    className="border-accent-glow hover:bg-accent/10 hover:text-accent"
                     onClick={handleCopy}
                   >
                     {copied ? (
@@ -210,7 +291,7 @@ export function SkillCard({ skill }: SkillCardProps) {
                 </Button>
                 <Button
                   variant="outline"
-                  className="border-border hover:bg-secondary transition-colors"
+                  className="border-accent-glow hover:bg-accent/10 hover:text-accent"
                   asChild
                 >
                   <a

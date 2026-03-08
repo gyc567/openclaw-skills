@@ -1,3 +1,19 @@
+
+export interface SkillApiCommand {
+  name: string;
+  description: string;
+  parameters?: string;
+}
+
+export interface SkillApi {
+  commands: SkillApiCommand[];
+}
+
+export interface SkillCapabilities {
+  supported: string[];
+  unsupported: string[];
+}
+
 export interface Skill {
   id: string;
   name: string;
@@ -8,6 +24,9 @@ export interface Skill {
   downloads?: number;
   rating?: number;
   installs?: string;
+  api?: SkillApi;
+  capabilities?: SkillCapabilities;
+  usage?: string;
 }
 
 export const categories = [
@@ -19,7 +38,7 @@ export const categories = [
   { id: "image-video", name: "Image & Video", count: 19, color: "#ec4899" },
   { id: "apple-services", name: "Apple Apps & Services", count: 14, color: "#64748b" },
   { id: "search-research", name: "Search & Research", count: 23, color: "#f59e0b" },
-  { id: "openclawskills-tools", name: "OpenClawSkills Tools", count: 17, color: "#ef4444" },
+  { id: "clawskillstore-tools", name: "ClawSkillStore Tools", count: 17, color: "#ef4444" },
   { id: "cli-utilities", name: "CLI Utilities", count: 41, color: "#14b8a6" },
   { id: "marketing-sales", name: "Marketing & Sales", count: 42, color: "#f97316" },
   { id: "productivity", name: "Productivity & Tasks", count: 42, color: "#22c55e" },
@@ -45,7 +64,7 @@ export const skills: Skill[] = [
   {
     id: "discord",
     name: "discord",
-    description: "Control Discord from OpenClawSkills via the discord tool: send messages, react to messages, manage channels.",
+    description: "Control Discord from ClawSkillStore via the discord tool: send messages, react to messages, manage channels.",
     author: "openclaw",
     category: "web-frontend",
     tags: ["discord", "chat", "messaging"],
@@ -72,7 +91,7 @@ export const skills: Skill[] = [
   {
     id: "slack",
     name: "slack",
-    description: "Control Slack from OpenClawSkills via the slack tool: send messages, manage channels, and interact with workspaces.",
+    description: "Control Slack from ClawSkillStore via the slack tool: send messages, manage channels, and interact with workspaces.",
     author: "openclaw",
     category: "web-frontend",
     tags: ["slack", "messaging", "workspace"],
@@ -424,6 +443,24 @@ export const skills: Skill[] = [
     tags: ["bitwarden", "passwords", "security", "opensource"],
     installs: "7.9k",
   },
+
+  {
+    id: "assist_agent_repair",
+    name: "assist_agent_repair",
+    description: "Use A2A protocol to help another OpenClaw agent diagnose, repair configuration issues, and restart if needed. Supports discovery, file edits, and session coordination.",
+    author: "Grok Assistant",
+    category: "clawskillstore-tools",
+    tags: ["openclaw", "agent", "repair", "a2a", "configuration"],
+    installs: "0",
+    api: {
+      commands: [
+        { name: "discover_sessions", description: "List all active agent sessions", parameters: "()" },
+        { name: "diagnose_issue", description: "Fetch session logs for diagnosis", parameters: "(session_id: string, limit?: number)" },
+        { name: "repair_config", description: "Repair agent configuration issues", parameters: "(session_id: string, issue_type: string)" },
+        { name: "restart_agent", description: "Restart target agent session", parameters: "(session_id: string, scope?: string)" }
+      ]
+    }
+  },
 ];
 
 export const getSkillsByCategory = (categoryId: string): Skill[] => {
@@ -444,5 +481,5 @@ export const searchSkills = (query: string): Skill[] => {
   );
 };
 
-export const totalSkills = 700;
+export const totalSkills = 701;
 export const totalCategories = categories.length;

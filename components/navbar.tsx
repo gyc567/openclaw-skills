@@ -52,6 +52,16 @@ export function Navbar({ onSearch }: NavbarProps) {
             href="#"
             className="flex items-center gap-2 group"
           >
+            <img
+              src="/clawAgentSkillStore.png"
+              alt="ClawSkillStore"
+              className="h-8 w-auto"
+            />
+          </a>
+          <a
+            href="#"
+            className="flex items-center gap-2 group"
+          >
             <div className="w-8 h-8 rounded bg-border flex items-center justify-center group-hover:bg-accent transition-colors">
               <Terminal className="w-4 h-4 text-foreground" />
             </div>

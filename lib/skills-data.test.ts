@@ -179,9 +179,51 @@ describe("skills-data", () => {
     });
   });
 
-  describe("constants", () => {
-    it("totalSkills should be 700", () => {
-      expect(totalSkills).toBe(700);
+  
+  describe("assist_agent_repair skill", () => {
+    it("should find assist_agent_repair by name", () => {
+      const result = searchSkills("assist_agent_repair");
+      expect(result.length).toBeGreaterThan(0);
+      expect(result.some((s) => s.id === "assist_agent_repair")).toBe(true);
+    });
+
+    it("should find assist_agent_repair by description", () => {
+      const result = searchSkills("A2A protocol");
+      expect(result.length).toBeGreaterThan(0);
+      expect(result.some((s) => s.id === "assist_agent_repair")).toBe(true);
+    });
+
+    it("should find assist_agent_repair by tag", () => {
+      const result = searchSkills("agent");
+      expect(result.length).toBeGreaterThan(0);
+      expect(result.some((s) => s.id === "assist_agent_repair")).toBe(true);
+    });
+
+    it("should return skill by ID", () => {
+      const result = getSkillById("assist_agent_repair");
+      expect(result).toBeDefined();
+      expect(result?.id).toBe("assist_agent_repair");
+      expect(result?.name).toBe("assist_agent_repair");
+      expect(result?.author).toBe("Grok Assistant");
+    });
+
+    it("should be in clawskillstore-tools category", () => {
+      const result = getSkillById("assist_agent_repair");
+      expect(result?.category).toBe("clawskillstore-tools");
+    });
+
+    it("should have valid API commands", () => {
+      const result = getSkillById("assist_agent_repair");
+      expect(result?.api).toBeDefined();
+      expect(result?.api?.commands).toBeDefined();
+      expect(result?.api?.commands.length).toBe(4);
+      expect(result?.api?.commands[0]?.name).toBe("discover_sessions");
+    });
+  });
+
+describe("constants", () => {
+    it("totalSkills should be 701", () => {
+      expect(totalSkills).toBe(701);
     });
 
     it("totalCategories should match categories length", () => {

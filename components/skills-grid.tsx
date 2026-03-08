@@ -100,7 +100,7 @@ export function SkillsGrid({ initialSearchQuery = "", enablePagination = true }:
                 placeholder={t.searchPlaceholder}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-52 pl-8 bg-secondary border-border text-sm font-mono"
+                className="w-52 pl-8 bg-secondary border-accent-glow text-sm font-mono"
               />
             </div>
           </div>
@@ -135,7 +135,7 @@ export function SkillsGrid({ initialSearchQuery = "", enablePagination = true }:
             <Button
               variant="outline"
               size="sm"
-              className="border-border font-mono text-xs"
+              className="border-accent-glow font-mono text-xs"
               onClick={clearFilters}
             >
               {t.emptyState.clearFilters}
@@ -152,7 +152,7 @@ export function SkillsGrid({ initialSearchQuery = "", enablePagination = true }:
             <Button
               variant="outline"
               size="sm"
-              className="border-border font-mono text-xs"
+              className="border-accent-glow font-mono text-xs"
               onClick={loadMore}
               disabled={isLoading}
             >

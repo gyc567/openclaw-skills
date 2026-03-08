@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" fill="none">
+  <!-- Background circle with glow -->
+  <defs>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#00e5ff" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#00e5ff" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="shrimpGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00e5ff"/>
+      <stop offset="100%" stop-color="#00b8d4"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Glow background -->
+  <circle cx="64" cy="64" r="60" fill="url(#glow)"/>
+  
+  <!-- Outer circuit ring -->
+  <circle cx="64" cy="64" r="52" stroke="#1e3a5f" stroke-width="1" fill="none" stroke-dasharray="4 4"/>
+  <circle cx="64" cy="64" r="48" stroke="#00e5ff" stroke-width="0.5" fill="none" opacity="0.5"/>
+  
+  <!-- Circuit nodes -->
+  <circle cx="64" cy="16" r="3" fill="#00e5ff"/>
+  <circle cx="64" cy="112" r="3" fill="#00e5ff"/>
+  <circle cx="16" cy="64" r="3" fill="#00e5ff"/>
+  <circle cx="112" cy="64" r="3" fill="#00e5ff"/>
+  
+  <!-- Circuit lines -->
+  <path d="M64 19 L64 35" stroke="#00e5ff" stroke-width="1" opacity="0.5"/>
+  <path d="M64 93 L64 109" stroke="#00e5ff" stroke-width="1" opacity="0.5"/>
+  <path d="M19 64 L35 64" stroke="#00e5ff" stroke-width="1" opacity="0.5"/>
+  <path d="M93 64 L109 64" stroke="#00e5ff" stroke-width="1" opacity="0.5"/>
+  
+  <!-- Stylized shrimp body - tech abstract -->
+  <path d="M35 64 Q45 45 55 55 Q65 40 75 55 Q85 45 95 64 Q85 80 75 70 Q65 85 55 70 Q45 80 35 64" 
+        fill="url(#shrimpGrad)" opacity="0.9"/>
+  
+  <!-- Shrimp head/eye area -->
+  <ellipse cx="95" cy="64" rx="8" ry="6" fill="#00e5ff"/>
+  
+  <!-- Antennae -->
+  <path d="M98 60 Q105 50 110 45" stroke="#00e5ff" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  <path d="M98 68 Q105 78 110 83" stroke="#00e5ff" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  
+  <!-- Tail -->
+  <path d="M35 64 Q28 58 25 64 Q28 70 35 64" fill="#00e5ff" opacity="0.7"/>
+  
+  <!-- Digital/circuit accents on body -->
+  <rect x="45" y="60" width="4" height="2" fill="#0a0f1a" opacity="0.5"/>
+  <rect x="55" y="55" width="4" height="2" fill="#0a0f1a" opacity="0.5"/>
+  <rect x="65" y="58" width="4" height="2" fill="#0a0f1a" opacity="0.5"/>
+  <rect x="75" y="62" width="4" height="2" fill="#0a0f1a" opacity="0.5"/>
+  <rect x="85" y="60" width="4" height="2" fill="#0a0f1a" opacity="0.5"/>
+  
+  <!-- Eye glow -->
+  <circle cx="97" cy="63" r="2" fill="#0a0f1a"/>
+  
+  <!-- Center logo mark -->
+  <circle cx="64" cy="64" r="4" fill="#0a0f1a" stroke="#00e5ff" stroke-width="1"/>
+</svg>

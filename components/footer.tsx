@@ -50,12 +50,11 @@ export function Footer() {
               href="#"
               className="flex items-center gap-2 mb-3"
             >
-              <div className="w-8 h-8 rounded bg-border flex items-center justify-center">
-                <Terminal className="w-4 h-4 text-foreground" />
-              </div>
-              <span className="font-mono text-sm font-medium text-foreground">
-                OpenClawSkills
-              </span>
+              <img
+                src="/clawAgentSkillStore.png"
+                alt="ClawSkillStore"
+                className="h-8 w-auto"
+              />
             </a>
             <p className="text-xs text-muted-foreground mb-4 max-w-xs leading-relaxed font-mono">
               {t.tagline}
