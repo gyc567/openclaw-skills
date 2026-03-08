@@ -5,6 +5,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { query } from "@/lib/db/client";
 import { isValidEthAddress } from "@/lib/x402";
+import { withRateLimit, createStrictRateLimiter } from "@/lib/api/rate-limit";
 
 /**
  * Generate verification code: OC-XXXXXXXX (8 chars)
@@ -31,6 +32,10 @@ function generateClaimToken(): string {
  * POST /api/agent - Register agent and get verification code
  */
 export async function POST(req: NextRequest) {
+  // Apply strict rate limiting for registration (5 requests per minute)
+  const rateLimitError = withRateLimit(req, { limit: 5, windowMs: 60 * 1000 });
+  if (rateLimitError) return rateLimitError;
+
   try {
     const body = await req.json();
     const { agentAddress, humanAddress } = body;

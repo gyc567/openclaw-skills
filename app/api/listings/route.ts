@@ -5,6 +5,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { query } from "@/lib/db/client";
 import { calculatePlatformFee, calculateSellerEarnings } from "@/lib/x402";
+import { withRateLimit } from "@/lib/api/rate-limit";
 
 interface ListingRow {
   id: number;
@@ -26,6 +27,10 @@ interface ListingRow {
  * GET /api/listings - Get listings with filtering
  */
 export async function GET(request: NextRequest) {
+  // Apply rate limiting
+  const rateLimitError = withRateLimit(request);
+  if (rateLimitError) return rateLimitError;
+  
   try {
     const { searchParams } = new URL(request.url);
     const page = parseInt(searchParams.get("page") || "1");
@@ -109,6 +114,10 @@ export async function GET(request: NextRequest) {
  * POST /api/listings - Create a new listing
  */
 export async function POST(request: NextRequest) {
+  // Apply strict rate limiting for creation
+  const rateLimitError = withRateLimit(request, { limit: 10, windowMs: 60 * 1000 });
+  if (rateLimitError) return rateLimitError;
+  
   try {
     const body = await request.json();
     const {

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { createAgent } from "@/lib/auth";
 import { query } from "@/lib/db/client";
 import type { Agent } from "@/lib/db/types";
+import { withRateLimit } from "@/lib/api/rate-limit";
 
 const MOLTBOOK_API_URL = process.env.MOLTBOOK_API_URL || "https://api.moltbook.com";
 
@@ -16,6 +17,10 @@ interface MoltbookRegisterResponse {
 }
 
 export async function POST(request: NextRequest) {
+  // Apply strict rate limiting for registration
+  const rateLimitError = withRateLimit(request, { limit: 5, windowMs: 60 * 1000 });
+  if (rateLimitError) return rateLimitError;
+  
   try {
     const body = await request.json();
     const { name, description } = body;

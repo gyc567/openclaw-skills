@@ -4,6 +4,8 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import { query, execute } from "@/lib/db/client";
+import { requireAuth } from "@/lib/api/auth";
+import { withRateLimit, createStrictRateLimiter } from "@/lib/api/rate-limit";
 
 const REFUND_WINDOW_DAYS = 7;
 
@@ -11,16 +13,19 @@ const REFUND_WINDOW_DAYS = 7;
  * GET /api/v1/refunds - Get user's refund requests
  */
 export async function GET(req: NextRequest) {
-  try {
-    const { searchParams } = new URL(req.url);
-    const address = searchParams.get("address");
+  // Apply rate limiting
+  const rateLimitError = withRateLimit(req);
+  if (rateLimitError) return rateLimitError;
 
-    if (!address) {
-      return NextResponse.json(
-        { error: "Wallet address required" },
-        { status: 400 }
-      );
-    }
+  // Require authentication
+  const authResult = requireAuth(req);
+  if (authResult instanceof NextResponse) {
+    return authResult;
+  }
+  
+  const { address: authAddress } = authResult;
+
+  try {
 
     const refunds = await query(
       `SELECT 
@@ -38,7 +43,7 @@ export async function GET(req: NextRequest) {
       WHERE r.buyer_address = $1
       ORDER BY r.created_at DESC
       LIMIT 50`,
-      [address.toLowerCase()]
+      [authAddress.toLowerCase()]
     );
 
     return NextResponse.json({
@@ -58,13 +63,25 @@ export async function GET(req: NextRequest) {
  * POST /api/v1/refunds - Request a refund
  */
 export async function POST(req: NextRequest) {
+  // Apply strict rate limiting for sensitive operations
+  const rateLimitError = withRateLimit(req, { limit: 5, windowMs: 60 * 1000 });
+  if (rateLimitError) return rateLimitError;
+
+  // Require authentication
+  const authResult = requireAuth(req);
+  if (authResult instanceof NextResponse) {
+    return authResult;
+  }
+  
+  const { address: authAddress } = authResult;
+
   try {
     const body = await req.json();
-    const { purchaseId, reason, address } = body;
+    const { purchaseId, reason } = body;
 
-    if (!purchaseId || !address) {
+    if (!purchaseId) {
       return NextResponse.json(
-        { error: "Purchase ID and wallet address required" },
+        { error: "Purchase ID required" },
         { status: 400 }
       );
     }
@@ -80,7 +97,7 @@ export async function POST(req: NextRequest) {
         t.created_at as "createdAt"
       FROM transactions t
       WHERE t.id = $1 AND t.buyer_address = $2`,
-      [purchaseId, address.toLowerCase()]
+      [purchaseId, authAddress.toLowerCase()]
     );
 
     if (purchase.length === 0) {
@@ -145,7 +162,7 @@ export async function POST(req: NextRequest) {
       [
         purchaseId,
         purchaseData.amount,
-        address.toLowerCase(),
+        authAddress.toLowerCase(),
         reason || "No reason provided",
       ]
     );

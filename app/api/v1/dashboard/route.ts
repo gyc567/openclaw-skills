@@ -3,23 +3,27 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import { query } from "@/lib/db/client";
+import { requireAuth } from "@/lib/api/auth";
+import { withRateLimit } from "@/lib/api/rate-limit";
 
 /**
  * GET /api/v1/dashboard - Get creator dashboard data
  */
 export async function GET(req: NextRequest) {
+  // Apply rate limiting
+  const rateLimitError = withRateLimit(req);
+  if (rateLimitError) return rateLimitError;
+
+  // Require authentication
+  const authResult = requireAuth(req);
+  if (authResult instanceof NextResponse) {
+    return authResult;
+  }
+  
+  const { address: authAddress } = authResult;
+
   try {
-    const { searchParams } = new URL(req.url);
-    const address = searchParams.get("address");
-
-    if (!address) {
-      return NextResponse.json(
-        { error: "Wallet address required" },
-        { status: 400 }
-      );
-    }
-
-    const walletAddress = address.toLowerCase();
+    const walletAddress = authAddress.toLowerCase();
 
     // Get creator info
     const creator = await query(

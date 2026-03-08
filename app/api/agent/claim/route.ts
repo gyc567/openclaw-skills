@@ -3,11 +3,15 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import { query } from "@/lib/db/client";
+import { withRateLimit } from "@/lib/api/rate-limit";
 
 /**
  * POST /api/agent/claim - Human claims agent
  */
 export async function POST(req: NextRequest) {
+  // Apply rate limiting
+  const rateLimitError = withRateLimit(req, { limit: 10, windowMs: 60 * 1000 });
+  if (rateLimitError) return rateLimitError;
   try {
     const body = await req.json();
     const { claimToken, humanAddress } = body;

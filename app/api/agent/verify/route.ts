@@ -3,6 +3,7 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import { query } from "@/lib/db/client";
+import { withRateLimit } from "@/lib/api/rate-limit";
 
 /**
  * Validate X.com post URL format
@@ -16,6 +17,10 @@ function isValidXPostUrl(url: string): boolean {
  * POST /api/agent/verify - Verify X.com post
  */
 export async function POST(req: NextRequest) {
+  // Apply rate limiting
+  const rateLimitError = withRateLimit(req, { limit: 10, windowMs: 60 * 1000 });
+  if (rateLimitError) return rateLimitError;
+  
   try {
     const body = await req.json();
     const { verificationCode, xPostUrl } = body;

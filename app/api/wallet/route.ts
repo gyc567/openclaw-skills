@@ -6,6 +6,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { query } from "@/lib/db/client";
 import { isValidEthAddress } from "@/lib/x402";
+import { withRateLimit } from "@/lib/api/rate-limit";
 import type { Wallet } from "@/lib/x402/types";
 
 interface WalletRow {
@@ -21,6 +22,10 @@ interface WalletRow {
  * Register a wallet address for an agent
  */
 export async function POST(request: NextRequest) {
+  // Apply strict rate limiting
+  const rateLimitError = withRateLimit(request, { limit: 10, windowMs: 60 * 1000 });
+  if (rateLimitError) return rateLimitError;
+  
   try {
     const body = await request.json();
     const { agentId, address, chain = "base" } = body;
@@ -98,6 +103,10 @@ export async function POST(request: NextRequest) {
  * Get wallet by agent ID
  */
 export async function GET(request: NextRequest) {
+  // Apply rate limiting
+  const rateLimitError = withRateLimit(request);
+  if (rateLimitError) return rateLimitError;
+  
   try {
     const { searchParams } = new URL(request.url);
     const agentId = searchParams.get("agentId");

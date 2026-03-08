@@ -11,6 +11,7 @@ import {
   calculatePlatformFee,
   calculateSellerEarnings,
 } from "@/lib/x402";
+import { withRateLimit } from "@/lib/api/rate-limit";
 
 interface TransactionRow {
   id: number;
@@ -31,6 +32,10 @@ interface TransactionRow {
  * POST /api/payments/verify - Verify payment signature
  */
 export async function POST(request: NextRequest) {
+  // Apply rate limiting for payment operations
+  const rateLimitError = withRateLimit(request, { limit: 30, windowMs: 60 * 1000 });
+  if (rateLimitError) return rateLimitError;
+  
   try {
     const body = await request.json();
     const { signature, paymentRequirement: paymentRequirementEncoded, listingId, buyerWallet } = body;
