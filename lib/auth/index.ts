@@ -12,9 +12,11 @@ function getJwtSecret(): string {
       throw new Error("JWT_SECRET environment variable is required in production");
     }
     if (process.env.NODE_ENV !== "production") {
-      console.warn("WARNING: Using default JWT secret in development. Set JWT_SECRET for production.");
+      // 生成一个随机的开发密钥
+      const crypto = require('crypto');
+      return 'dev_' + crypto.randomBytes(32).toString('hex');
     }
-    return "dev-secret-change-in-production";
+    throw new Error("JWT_SECRET is required");
   }
   return secret;
 }
