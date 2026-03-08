@@ -121,3 +121,48 @@ export interface DashboardStats {
   totalConversions: number;
   totalEarnings: string;
 }
+
+export interface Creator {
+  id: number;
+  address: string;
+  username: string;
+  display_name: string | null;
+  avatar_url: string | null;
+  bio: string | null;
+  category: string | null;
+  total_earnings: string;
+  total_sales: number;
+  rating: number;
+  is_verified: boolean;
+  created_at: Date;
+  updated_at: Date;
+}
+
+export interface Listing {
+  id: number;
+  creator_id: number;
+  name: string;
+  description: string | null;
+  category: string | null;
+  price_usd: string;
+  version: string | null;
+  package_url: string | null;
+  is_published: boolean;
+  created_at: Date;
+  updated_at: Date;
+}
+
+export interface AgentRegistration {
+  id: number;
+  agent_address: string;
+  human_address: string | null;
+  verification_code: string;
+  claim_token: string;
+  claim_token_expires: Date;
+  status: "pending" | "claimed" | "verified";
+  x_post_url: string | null;
+  x_verified: boolean;
+  x_posted_at: Date | null;
+  created_at: Date;
+  updated_at: Date;
+}
