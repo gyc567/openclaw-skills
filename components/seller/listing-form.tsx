@@ -1,12 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { categories } from "@/lib/skills-data";
-import { Loader2, Plus, X } from "lucide-react";
+import { Loader2, Plus, X, Upload } from "lucide-react";
+import { parseMdFile, isValidMdFile } from "./md-parser";
 
 interface ListingFormData {
   name: string;
@@ -35,6 +36,42 @@ export function ListingForm({ onSubmit, isLoading = false }: ListingFormProps) {
   });
 
   const [tagInput, setTagInput] = useState("");
+  const [uploadError, setUploadError] = useState<string>("");
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploadError("");
+
+    if (!isValidMdFile(file.name)) {
+      setUploadError("Please upload a .md file");
+      return;
+    }
+
+    try {
+      const content = await file.text();
+      const parsed = parseMdFile(content);
+
+      setFormData((prev) => ({
+        ...prev,
+        name: parsed.name || prev.name,
+        description: parsed.description || prev.description,
+        category: parsed.category || prev.category,
+        tags: parsed.tags?.length ? parsed.tags : prev.tags,
+        priceUsd: parsed.priceUsd ?? prev.priceUsd,
+        version: parsed.version || prev.version,
+        packageUrl: parsed.packageUrl || prev.packageUrl,
+      }));
+    } catch {
+      setUploadError("Failed to parse file");
+    }
+
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -72,10 +109,36 @@ export function ListingForm({ onSubmit, isLoading = false }: ListingFormProps) {
   return (
     <Card className="bg-secondary/50 border-accent-glow">
       <CardHeader>
-        <CardTitle>Create New Listing</CardTitle>
-        <CardDescription>
-          List your skill for sale on the marketplace
-        </CardDescription>
+        <div className="flex items-center justify-between">
+          <div>
+            <CardTitle>Create New Listing</CardTitle>
+            <CardDescription>
+              List your skill for sale on the marketplace
+            </CardDescription>
+          </div>
+          <div className="flex flex-col items-end gap-2">
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept=".md,.markdown"
+              onChange={handleFileUpload}
+              className="hidden"
+              id="md-upload"
+            />
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => fileInputRef.current?.click()}
+              className="flex items-center gap-2"
+            >
+              <Upload className="w-4 h-4" />
+              Upload MD
+            </Button>
+            {uploadError && (
+              <p className="text-xs text-red-500">{uploadError}</p>
+            )}
+          </div>
+        </div>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-4">
