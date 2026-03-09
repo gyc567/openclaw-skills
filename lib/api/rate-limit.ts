@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import LRUCache from 'mnemonist/lru-cache';
+import { LRUCache } from 'mnemonist';
 
 // Rate limiter using LRU cache (simple in-memory solution)
 const rateLimitMap = new LRUCache<string, { count: number; resetTime: number }>(1000);
