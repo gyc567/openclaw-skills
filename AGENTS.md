@@ -5,7 +5,7 @@ This file provides guidelines for AI agents operating in this repository.
 ## Project Overview
 
 - **Type**: Next.js 16 + React 19 + TypeScript application
-- **Purpose**: OpenClawSkills website - a skill registry for AI agents
+- **Purpose**: OpenCreditAi website - a skill registry for AI agents
 - **Design**: Agent-style UI (black/white + orange accent, JetBrains Mono font)
 - **Testing**: Vitest with @testing-library/react
 

@@ -38,7 +38,7 @@ export const categories = [
   { id: "image-video", name: "Image & Video", count: 19, color: "#ec4899" },
   { id: "apple-services", name: "Apple Apps & Services", count: 14, color: "#64748b" },
   { id: "search-research", name: "Search & Research", count: 23, color: "#f59e0b" },
-  { id: "clawskillstore-tools", name: "ClawSkillStore Tools", count: 17, color: "#ef4444" },
+  { id: "opencreditai-tools", name: "OpenCreditAi Tools", count: 17, color: "#ef4444" },
   { id: "cli-utilities", name: "CLI Utilities", count: 41, color: "#14b8a6" },
   { id: "marketing-sales", name: "Marketing & Sales", count: 42, color: "#f97316" },
   { id: "productivity", name: "Productivity & Tasks", count: 42, color: "#22c55e" },
@@ -64,7 +64,7 @@ export const skills: Skill[] = [
   {
     id: "discord",
     name: "discord",
-    description: "Control Discord from ClawSkillStore via the discord tool: send messages, react to messages, manage channels.",
+    description: "Control Discord from OpenCreditAi via the discord tool: send messages, react to messages, manage channels.",
     author: "openclaw",
     category: "web-frontend",
     tags: ["discord", "chat", "messaging"],
@@ -91,7 +91,7 @@ export const skills: Skill[] = [
   {
     id: "slack",
     name: "slack",
-    description: "Control Slack from ClawSkillStore via the slack tool: send messages, manage channels, and interact with workspaces.",
+    description: "Control Slack from OpenCreditAi via the slack tool: send messages, manage channels, and interact with workspaces.",
     author: "openclaw",
     category: "web-frontend",
     tags: ["slack", "messaging", "workspace"],
@@ -449,7 +449,7 @@ export const skills: Skill[] = [
     name: "assist_agent_repair",
     description: "Use A2A protocol to help another OpenClaw agent diagnose, repair configuration issues, and restart if needed. Supports discovery, file edits, and session coordination.",
     author: "Grok Assistant",
-    category: "clawskillstore-tools",
+    category: "opencreditai-tools",
     tags: ["openclaw", "agent", "repair", "a2a", "configuration"],
     installs: "0",
     api: {

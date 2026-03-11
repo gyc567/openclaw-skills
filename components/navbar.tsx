@@ -57,7 +57,7 @@ export function Navbar({ onSearch }: NavbarProps) {
           >
             <img
               src="/clawAgentSkillStore.png"
-              alt="ClawSkillStore"
+              alt="OpenCreditAi"
               className="h-8 w-auto"
             />
           </a>

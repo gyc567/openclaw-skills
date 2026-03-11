@@ -40,6 +40,8 @@ export function Hero() {
           <span className="text-foreground">{t.headline[0]}</span>
           <br />
           <span className="text-gradient-cyan text-glow">{t.headline[1]}</span>
+          <br />
+          <span className="text-foreground">{t.headline[2]}</span>
         </h1>
 
         <p className="max-w-2xl mx-auto text-base sm:text-lg text-muted-foreground leading-relaxed mb-8 animate-fade-in-up animate-delay-200">

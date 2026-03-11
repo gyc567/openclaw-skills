@@ -52,7 +52,7 @@ export function Footer() {
             >
               <img
                 src="/clawAgentSkillStore.png"
-                alt="ClawSkillStore"
+                alt="OpenCreditAi"
                 className="h-8 w-auto"
               />
             </a>
@@ -144,7 +144,7 @@ export function Footer() {
           </p>
           <div className="flex items-center gap-2 text-xs text-muted-foreground font-mono">
             <span>{t.poweredBy}</span>
-            <span className="text-accent">OpenClawSkills</span>
+            <span className="text-accent">OpenCreditAi</span>
           </div>
         </div>
       </div>

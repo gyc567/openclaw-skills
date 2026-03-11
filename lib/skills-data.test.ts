@@ -207,9 +207,9 @@ describe("skills-data", () => {
       expect(result?.author).toBe("Grok Assistant");
     });
 
-    it("should be in clawskillstore-tools category", () => {
+    it("should be in opencreditai-tools category", () => {
       const result = getSkillById("assist_agent_repair");
-      expect(result?.category).toBe("clawskillstore-tools");
+      expect(result?.category).toBe("opencreditai-tools");
     });
 
     it("should have valid API commands", () => {
