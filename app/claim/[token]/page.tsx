@@ -221,9 +221,9 @@ function ClaimContent() {
                 </div>
                 <Button
                   className="w-full bg-accent text-accent-foreground hover:bg-accent/90"
-                  onClick={() => window.location.href = "/"}
+                  onClick={() => window.location.href = `/dashboard?agentId=${agentInfo?.id}`}
                 >
-                  Go to Homepage
+                  Go to Dashboard
                 </Button>
               </CardContent>
             </Card>
