@@ -132,7 +132,7 @@ function DashboardContent() {
           <div className="grid md:grid-cols-3 gap-6 mb-8">
             <StatsCard
               title="Total Earnings"
-              value={`$${creator?.totalEarnings?.toFixed(2) || "0.00"}`}
+              value={`$${typeof creator?.totalEarnings === 'number' ? creator.totalEarnings.toFixed(2) : Number(creator?.totalEarnings || 0).toFixed(2)}`}
               icon="dollar"
             />
             <StatsCard
@@ -142,7 +142,7 @@ function DashboardContent() {
             />
             <StatsCard
               title="Rating"
-              value={creator?.rating?.toFixed(1) || "5.0"}
+              value={typeof creator?.rating === 'number' ? creator.rating.toFixed(1) : Number(creator?.rating || 0).toFixed(1)}
               icon="star"
             />
           </div>
