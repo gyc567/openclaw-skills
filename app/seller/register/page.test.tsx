@@ -58,9 +58,9 @@ describe("SellerRegisterPage", () => {
     expect(screen.getAllByTestId("wallet-connect")).toHaveLength(1);
   });
 
-  it("renders CreatorRegisterForm component", () => {
+  it("does not render CreatorRegisterForm before wallet connect", () => {
     render(<SellerRegisterPage />);
-    expect(screen.getAllByTestId("creator-form")).toHaveLength(1);
+    expect(screen.queryByTestId("creator-form")).not.toBeInTheDocument();
   });
 
   it("has correct page structure with main element", () => {
