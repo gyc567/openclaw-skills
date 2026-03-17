@@ -102,13 +102,57 @@ export async function POST(req: NextRequest) {
 
 /**
  * GET /api/agent - Get registration status
+ * Supports: verificationCode, claimToken, or address
  */
 export async function GET(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url);
     const verificationCode = searchParams.get("verificationCode");
     const claimToken = searchParams.get("claimToken");
+    const address = searchParams.get("address");
 
+    // If checking by wallet address - return status for smart redirect
+    if (address) {
+      const normalizedAddress = address.toLowerCase();
+      
+      const result = await query(
+        `SELECT id, agent_address, agent_name, verification_code, claim_token, status, x_verified, created_at 
+         FROM agent_registrations WHERE agent_address = $1 ORDER BY created_at DESC LIMIT 1`,
+        [normalizedAddress]
+      );
+
+      if (result.length === 0) {
+        return NextResponse.json({
+          success: true,
+          data: {
+            hasAgent: false,
+            status: "none",
+          },
+        });
+      }
+
+      const agent = result[0];
+      let status: "none" | "pending" | "verified" = "none";
+      
+      if (agent.x_verified) {
+        status = "verified";
+      } else if (agent.status === "pending" || agent.status === "claimed") {
+        status = "pending";
+      }
+
+      return NextResponse.json({
+        success: true,
+        data: {
+          hasAgent: true,
+          agentId: agent.id,
+          status,
+          claimToken: agent.claim_token,
+          verificationCode: agent.verification_code,
+        },
+      });
+    }
+
+    // Original logic for verificationCode or claimToken
     if (!verificationCode && !claimToken) {
       return NextResponse.json(
         { success: false, error: "verificationCode or claimToken is required" },
