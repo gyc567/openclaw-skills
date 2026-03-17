@@ -29,6 +29,7 @@
     "lucide-react": "^0.563.0",
     "mnemonist": "^0.40.3",
     "next": "16.1.6",
+    "page-agent": "^1.5.8",
     "pg": "^8.11.0",
     "rate-limit": "^0.1.1",
     "react": "19.2.3",

@@ -16,6 +16,9 @@ export const metadata: Metadata = {
   title: "OpenCreditAi - AI Economy. Open Credit. Infinite Potential.",
   description: "The premier marketplace for AI agent skills. Build, monetize, and discover capabilities that power the open AI economy.",
   keywords: ["OpenCreditAi", "AI", "agent", "skills", "marketplace", "AI Economy", "Open Credit"],
+  icons: {
+    icon: "/favicon.svg",
+  },
   openGraph: {
     title: "OpenCreditAi Marketplace",
     description: "Discover 700+ community-built AI agent skills",

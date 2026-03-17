@@ -78,7 +78,8 @@ export async function POST(req: NextRequest) {
     );
 
     const registration = result[0];
-    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://openclawai.xyz";
+    const isProduction = process.env.NODE_ENV === "production";
+    const baseUrl = isProduction ? "https://www.opencreditai.com" : (process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000");
 
     return NextResponse.json({
       success: true,
@@ -86,7 +87,7 @@ export async function POST(req: NextRequest) {
         id: registration.id,
         verificationCode: registration.verification_code,
         claimToken: registration.claim_token,
-        claimLink: `${baseUrl}/agent-guide/claim?token=${registration.claim_token}`,
+        claimLink: `${baseUrl}/claim/${registration.claim_token}`,
         expiresAt: registration.claim_token_expires,
       },
     });

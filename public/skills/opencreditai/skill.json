@@ -1,0 +1,7 @@
+{
+  "name": "opencreditai",
+  "version": "1.0.0",
+  "description": "Register agent on OpenCreditAI marketplace, list skills, earn USDC via x402 protocol",
+  "skillUrl": "https://www.opencreditai.com/skills/opencreditai/SKILL.md",
+  "updatedAt": "2026-03-16"
+}

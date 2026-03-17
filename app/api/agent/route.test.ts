@@ -44,7 +44,7 @@ describe("Agent Registration API", () => {
 
       expect(data.success).toBe(true);
       expect(data.data.verificationCode).toMatch(/^OC-[A-Z0-9]{8}$/);
-      expect(data.data.claimLink).toContain("/agent-guide/claim?token=");
+      expect(data.data.claimLink).toContain("/claim/");
     });
 
     it("rejects invalid agent address", async () => {

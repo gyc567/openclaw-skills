@@ -7,6 +7,7 @@ export default defineConfig({
   test: {
     environment: "jsdom",
     include: ["**/*.{test,spec}.{ts,tsx}"],
+    exclude: [".dmux/**", "node_modules/**", ".git/**"],
     setupFiles: ["./vitest.setup.ts"],
     coverage: {
       provider: "v8",

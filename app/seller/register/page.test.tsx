@@ -1,5 +1,5 @@
-import { describe, it, expect, vi } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { describe, it, expect, vi, beforeEach } from "vitest";
+import { render, screen, cleanup } from "@testing-library/react";
 import SellerRegisterPage from "./page";
 
 // Mock next/navigation
@@ -29,6 +29,10 @@ vi.mock("@/components/wallet/connect", () => ({
 }));
 
 describe("SellerRegisterPage", () => {
+  beforeEach(() => {
+    cleanup();
+  });
+
   it("renders without crashing", () => {
     render(<SellerRegisterPage />);
     expect(screen.getByText("Become a Seller")).toBeInTheDocument();
@@ -36,27 +40,27 @@ describe("SellerRegisterPage", () => {
 
   it("renders Navbar component", () => {
     render(<SellerRegisterPage />);
-    expect(screen.getByTestId("navbar")).toBeInTheDocument();
+    expect(screen.getAllByTestId("navbar")).toHaveLength(1);
   });
 
   it("renders page title", () => {
     render(<SellerRegisterPage />);
-    expect(screen.getByText("Become a Seller")).toBeInTheDocument();
+    expect(screen.getAllByText("Become a Seller")).toHaveLength(1);
   });
 
   it("renders subtitle", () => {
     render(<SellerRegisterPage />);
-    expect(screen.getByText("List your skills and earn USDC")).toBeInTheDocument();
+    expect(screen.getAllByText("List your skills and earn USDC")).toHaveLength(1);
   });
 
   it("renders WalletConnect component", () => {
     render(<SellerRegisterPage />);
-    expect(screen.getByTestId("wallet-connect")).toBeInTheDocument();
+    expect(screen.getAllByTestId("wallet-connect")).toHaveLength(1);
   });
 
   it("renders CreatorRegisterForm component", () => {
     render(<SellerRegisterPage />);
-    expect(screen.getByTestId("creator-form")).toBeInTheDocument();
+    expect(screen.getAllByTestId("creator-form")).toHaveLength(1);
   });
 
   it("has correct page structure with main element", () => {
