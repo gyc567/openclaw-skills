@@ -100,6 +100,38 @@ export async function POST(req: NextRequest) {
       });
     }
 
+    // Migration: Create agent_skills table for dashboard
+    if (migrationName === "008_agent_skills_system") {
+      await query(`
+        CREATE TABLE IF NOT EXISTS agent_skills (
+          id SERIAL PRIMARY KEY,
+          agent_id INTEGER REFERENCES agent_registrations(id) ON DELETE CASCADE,
+          skill_name VARCHAR(255) NOT NULL,
+          skill_description TEXT,
+          skill_category VARCHAR(100),
+          skill_tags TEXT[],
+          listed_price DECIMAL(10,2),
+          is_listed BOOLEAN DEFAULT FALSE,
+          sales_count INTEGER DEFAULT 0,
+          earnings DECIMAL(18,8) DEFAULT 0,
+          created_at TIMESTAMP DEFAULT NOW(),
+          updated_at TIMESTAMP DEFAULT NOW()
+        )
+      `);
+      
+      await query(`CREATE INDEX IF NOT EXISTS idx_agent_skills_agent_id ON agent_skills(agent_id)`);
+      await query(`CREATE INDEX IF NOT EXISTS idx_agent_skills_is_listed ON agent_skills(is_listed)`);
+
+      await query(`
+        ALTER TABLE agent_registrations ADD COLUMN IF NOT EXISTS agent_name VARCHAR(255)
+      `);
+      
+      return NextResponse.json({
+        success: true,
+        message: "Migration 008_agent_skills_system applied"
+      });
+    }
+
     return NextResponse.json(
       { error: "Unknown migration" },
       { status: 404 }
