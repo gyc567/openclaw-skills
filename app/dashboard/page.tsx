@@ -111,6 +111,7 @@ const AVAILABLE_SKILLS = [
 function DashboardContent() {
   const searchParams = useSearchParams();
   const agentId = searchParams.get("agentId");
+  const walletAddress = searchParams.get("walletAddress");
 
   const [data, setData] = useState<DashboardData | null>(null);
   const [loading, setLoading] = useState(true);
@@ -124,6 +125,23 @@ function DashboardContent() {
   const [listPrice, setListPrice] = useState("");
   const [saving, setSaving] = useState(false);
 
+  const fetchDashboardData = async () => {
+    if (!agentId) return;
+    
+    let url = `/api/agent/dashboard?agentId=${agentId}`;
+    if (walletAddress) url += `&walletAddress=${walletAddress}`;
+    
+    const response = await fetch(url);
+    const result = await response.json();
+
+    if (result.success) {
+      setData(result.data);
+      setAgentName(result.data.agent.name);
+    } else {
+      setError(result.error || "Failed to load dashboard");
+    }
+  };
+
   useEffect(() => {
     if (!agentId) {
       setError("Missing agentId parameter");
@@ -133,15 +151,7 @@ function DashboardContent() {
 
     const fetchData = async () => {
       try {
-        const response = await fetch(`/api/agent/dashboard?agentId=${agentId}`);
-        const result = await response.json();
-
-        if (result.success) {
-          setData(result.data);
-          setAgentName(result.data.agent.name);
-        } else {
-          setError(result.error || "Failed to load dashboard");
-        }
+        await fetchDashboardData();
       } catch {
         setError("Failed to load dashboard");
       } finally {
@@ -150,7 +160,7 @@ function DashboardContent() {
     };
 
     fetchData();
-  }, [agentId]);
+  }, [agentId, walletAddress]);
 
   const handleSaveName = async () => {
     if (!agentId || !agentName.trim()) return;
@@ -163,6 +173,7 @@ function DashboardContent() {
         body: JSON.stringify({
           action: "updateName",
           agentId,
+          walletAddress: walletAddress || undefined,
           data: { name: agentName.trim() },
         }),
       });
@@ -191,6 +202,7 @@ function DashboardContent() {
         body: JSON.stringify({
           action: "addSkill",
           agentId,
+          walletAddress: walletAddress || undefined,
           data: {
             skillName,
             skillDescription: skill?.description,
@@ -203,7 +215,9 @@ function DashboardContent() {
       if (result.success) {
         setSkillModalOpen(false);
         setSelectedArchetype(null);
-        window.location.reload();
+        await fetchDashboardData();
+      } else {
+        setError(result.error || "Failed to add skill");
       }
     } catch {
       setError("Failed to add skill");
@@ -223,6 +237,7 @@ function DashboardContent() {
         body: JSON.stringify({
           action: "listSkill",
           agentId,
+          walletAddress: walletAddress || undefined,
           data: { skillId: selectedSkill.id, price: listPrice },
         }),
       });
@@ -232,7 +247,9 @@ function DashboardContent() {
         setListModalOpen(false);
         setSelectedSkill(null);
         setListPrice("");
-        window.location.reload();
+        await fetchDashboardData();
+      } else {
+        setError(result.error || "Failed to list skill");
       }
     } catch {
       setError("Failed to list skill");

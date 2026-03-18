@@ -12,9 +12,11 @@ import { withRateLimit, createStrictRateLimiter } from "@/lib/api/rate-limit";
  */
 function generateVerificationCode(): string {
   const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+  const bytes = new Uint8Array(8);
+  crypto.getRandomValues(bytes);
   let code = "OC-";
   for (let i = 0; i < 8; i++) {
-    code += chars.charAt(Math.floor(Math.random() * chars.length));
+    code += chars.charAt(bytes[i] % chars.length);
   }
   return code;
 }

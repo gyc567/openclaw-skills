@@ -9,12 +9,27 @@ export async function GET(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url);
     const agentId = searchParams.get("agentId");
+    const walletAddress = searchParams.get("walletAddress");
 
     if (!agentId) {
       return NextResponse.json(
         { success: false, error: "agentId is required" },
         { status: 400 }
       );
+    }
+
+    if (walletAddress) {
+      const ownershipCheck = await query(
+        "SELECT id FROM agent_registrations WHERE id = $1 AND (agent_address = $2 OR human_address = $2)",
+        [agentId, walletAddress.toLowerCase()]
+      );
+      
+      if (ownershipCheck.length === 0) {
+        return NextResponse.json(
+          { success: false, error: "Unauthorized access to this agent" },
+          { status: 403 }
+        );
+      }
     }
 
     const agentResult = await query(
@@ -131,13 +146,27 @@ export async function POST(req: NextRequest) {
 
   try {
     const body = await req.json();
-    const { action, agentId, data } = body;
+    const { action, agentId, walletAddress, data } = body;
 
     if (!agentId) {
       return NextResponse.json(
         { success: false, error: "agentId is required" },
         { status: 400 }
       );
+    }
+
+    if (walletAddress) {
+      const ownershipCheck = await query(
+        "SELECT id FROM agent_registrations WHERE id = $1 AND (agent_address = $2 OR human_address = $2)",
+        [agentId, walletAddress.toLowerCase()]
+      );
+      
+      if (ownershipCheck.length === 0) {
+        return NextResponse.json(
+          { success: false, error: "Unauthorized to modify this agent" },
+          { status: 403 }
+        );
+      }
     }
 
     switch (action) {
@@ -167,6 +196,18 @@ export async function POST(req: NextRequest) {
         if (!skillName) {
           return NextResponse.json(
             { success: false, error: "skillName is required" },
+            { status: 400 }
+          );
+        }
+
+        const existingCount = await query(
+          "SELECT COUNT(*) as count FROM agent_skills WHERE agent_id = $1",
+          [agentId]
+        );
+        
+        if (parseInt(existingCount[0].count) >= 50) {
+          return NextResponse.json(
+            { success: false, error: "Maximum skill limit (50) reached" },
             { status: 400 }
           );
         }
