@@ -70,19 +70,29 @@ export const SUPPORTED_WALLETS: WalletInfo[] = [
 ];
 
 function getEthereum() {
-  if (typeof window === "undefined") return null;
-  return (window as unknown as { ethereum?: unknown }).ethereum || null;
+  if (typeof window === "undefined") {
+    console.log("[Wallet Debug] window is undefined (SSR)");
+    return null;
+  }
+  const eth = (window as unknown as { ethereum?: unknown }).ethereum || null;
+  console.log("[Wallet Debug] window.ethereum exists:", !!eth);
+  return eth;
 }
 
 function detectWallets(): WalletInfo[] {
   const eth = getEthereum();
   if (!eth) {
+    console.log("[Wallet Debug] No ethereum provider detected");
     return SUPPORTED_WALLETS.map((w) => ({ ...w, detected: false }));
   }
 
+  const provider = eth as Record<string, unknown>;
+  console.log("[Wallet Debug] Ethereum provider properties:", Object.keys(provider));
+  console.log("[Wallet Debug] isMetaMask:", provider.isMetaMask);
+  console.log("[Wallet Debug] isCoinbaseWallet:", provider.isCoinbaseWallet);
+
   return SUPPORTED_WALLETS.map((wallet) => {
     let detected = false;
-    const provider = eth as Record<string, unknown>;
 
     switch (wallet.id) {
       case "metamask":
@@ -105,6 +115,7 @@ function detectWallets(): WalletInfo[] {
         break;
     }
 
+    console.log(`[Wallet Debug] ${wallet.name} detected:`, detected);
     return { ...wallet, detected };
   });
 }
@@ -169,7 +180,9 @@ export function useWallet() {
 
   const connect = useCallback(async () => {
     const eth = getEthereum();
+    console.log("[Wallet Debug] connect() called, eth:", !!eth);
     if (!eth) {
+      console.log("[Wallet Debug] No eth provider in connect()");
       setState((prev) => ({ ...prev, error: "No wallet detected" }));
       return;
     }
