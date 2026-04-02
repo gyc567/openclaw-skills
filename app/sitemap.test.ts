@@ -4,13 +4,15 @@ import sitemap from "./sitemap";
 describe("sitemap.ts", () => {
   it("exports sitemap with all public pages", () => {
     const entries = sitemap();
-    expect(entries.length).toBe(9);
+    expect(entries.length).toBe(11);
 
     const urls = entries.map((e) => e.url);
     expect(urls).toContain("https://opencreditai.com");
     expect(urls).toContain("https://opencreditai.com/blog");
     expect(urls).toContain("https://opencreditai.com/blog/claude-code-unpacked-for-ai-skill-marketplaces");
     expect(urls).toContain("https://opencreditai.com/blog/create-first-skill-listing");
+    expect(urls).toContain("https://opencreditai.com/blog/getting-started-with-opencreditai");
+    expect(urls).toContain("https://opencreditai.com/blog/understanding-skill-pricing");
     expect(urls).toContain("https://opencreditai.com/dojo");
     expect(urls).toContain("https://opencreditai.com/agent-guide");
     expect(urls).toContain("https://opencreditai.com/seller/register");
